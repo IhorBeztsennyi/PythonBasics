@@ -49,17 +49,20 @@ for i in random_numbers:
         count_odd += 1
 
 # Average of even numbers calculation
+# Check if count_even to avoid division by zero
 if count_even > 0:
     average_even = sum_even / count_even
 else:
     average_even = 0
 
 # Average of odd numbers calculation
+# Check if count_odd > 0 to avoid division by zero
 if count_odd > 0:
     average_odd = sum_odd / count_odd
 else:
     average_odd = 0
 
-# Print the average of even and odd numbers rounded to two decimal places
+# Print the average of even numbers rounded to two decimal places
 print(f"Average of even numbers: {round(average_even, 2)}")
+# Print the average of odd numbers rounded to two decimal places
 print(f"Average of odd numbers: {round(average_odd, 2)}")
