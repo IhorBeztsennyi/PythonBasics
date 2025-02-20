@@ -5,7 +5,7 @@ import random
 # Creating an empty list
 random_numbers = []
 
-# For loop to generate and add 100 random numbers between 0 and 1000 to the list
+# For loop to populate the list with 100 random numbers between 0 and 1000
 for i in range(100):
     random_numbers.append(random.randint(0, 1000))
 
@@ -13,9 +13,9 @@ for i in range(100):
 print(f"Before sorting {random_numbers}")
 
 # Sort the list from Min to Max without using the sort() function
-# Bubble Sort algorithm
 # The number of elements in the list determining
 n = len(random_numbers)
+# Bubble Sort algorithm
 for i in range(n):
     for j in range(n - i - 1):
         if random_numbers[j] > random_numbers[j + 1]:
@@ -24,7 +24,7 @@ for i in range(n):
             random_numbers[j] = random_numbers[j + 1]
             random_numbers[j + 1] = temp
 
-# Printind the sorted list
+# Printing the sorted list
 print(f"After sorting {random_numbers}")
 
 # Calculate the average for even and odd numbers
@@ -62,7 +62,7 @@ if count_odd > 0:
 else:
     average_odd = 0
 
-# Print the average of even numbers rounded to two decimal places
+# Printing the average of even numbers rounded to two decimal places
 print(f"Average of even numbers: {round(average_even, 2)}")
-# Print the average of odd numbers rounded to two decimal places
+# Printing the average of odd numbers rounded to two decimal places
 print(f"Average of odd numbers: {round(average_odd, 2)}")
