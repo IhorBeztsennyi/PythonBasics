@@ -34,3 +34,20 @@ for i in range(dict_quantity):
 print(f"List of dictionaries {dict_list}")
 
 # Get previously generated list of dicts and create one common
+
+# Creating an empty dictionary to count occurrences of each key
+key_count = {}
+
+# Loop through each dictionary with its index
+for index_dict, dict in enumerate(dict_list):
+    # Loop through each key in the current dictionary
+    for key in dict:
+        if key in key_count:
+            # Add a tuple with the number of the dictionary and its value to the existing list
+            key_count[key].append((index_dict, dict[key]))
+        else:
+            # First item addition
+            key_count[key] = [(index_dict, dict[key])]
+
+# Printing the list of dictionaries
+print(f"Keys count dictionary {key_count}")
