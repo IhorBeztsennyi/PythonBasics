@@ -51,3 +51,28 @@ for index_dict, dict in enumerate(dict_list):
 
 # Printing the list of dictionaries
 print(f"Keys count dictionary {key_count}")
+
+# Creating an empty dictionary to store the final result
+result_dict = {}
+
+# Result dictionary populating
+for key, value_list in key_count.items():
+    # If the key appears once
+    if len(value_list) == 1:
+        # Adding item to the result dictionary
+        result_dict[key] = value_list[0][1]
+        # If the key appears in several dictionaries
+    else:
+        # Maximum value and its dictionary index
+        # Initialize the first tuple as maximum
+        max_value = value_list[0]
+        for item in value_list:
+            # Compare the next value
+            if item[1] > max_value[1]:
+                # Update maximum value if a bigger value is found
+                max_value = item
+        # Rename the key with the dictionary number, underscore and index of the dictionary with max value
+        result_dict[f"{key}_{max_value[0] + 1}"] = max_value[1]
+
+# Printing the result dictionary
+print(f"Result dictionary {result_dict}")
