@@ -12,3 +12,9 @@ class TestLesson1(unittest.TestCase):
         arr = [5, 1, 0.9999999999999999999, 0.0, 8, 4, -2]
         tasks.Lesson_1.bubble_sort(arr)
         self.assertEqual(arr, [-2, 0, 0.9999999999999999999, 1, 4, 5, 8])
+
+    def test_calculate_averages(self):
+        arr = [5, 1, 0.9999999999999999999, 0.0, 8, 4, -2]
+        avg_even, avg_odd = tasks.Lesson_1.calculate_averages(arr)
+        self.assertEqual(avg_even, 2.5)
+        self.assertEqual(avg_odd, 2.33)
