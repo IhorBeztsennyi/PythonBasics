@@ -88,19 +88,21 @@ import json
 
 # Generates a list of dictionaries with random keys and values.
 def generate_random_dicts():
-    dict_quantity = random.randint(2, 10)
-
-    dict_list = []
-    for i in range(dict_quantity):
-        item_quantity = random.randint(1, 6)
-        dictionary = {}
-        while len(dictionary) < item_quantity:
-            key = random.choice(string.ascii_letters)
-            value = random.randint(0, 100)
-            dictionary[key] = value
-        dict_list.append(dictionary)
-
-    return dict_list
+    try:
+        dict_quantity = random.randint(2, 10)
+        dict_list = []
+        for i in range(dict_quantity):
+            item_quantity = random.randint(1, 6)
+            dictionary = {}
+            while len(dictionary) < item_quantity:
+                key = random.choice(string.ascii_letters)
+                value = random.randint(0, 100)
+                dictionary[key] = value
+            dict_list.append(dictionary)
+        return dict_list
+    except Exception as e:
+        print(f"An unexpected error occurred when generating random dictionaries: {e}")
+        return []
 
 
 # Aggregates dictionaries by keeping the maximum value for each key.
@@ -108,8 +110,16 @@ def aggregate_dicts(dict_list):
     result_dict = {}
     key_data = {}
 
+    if not type(dict_list) is list:
+        raise TypeError('Only lists are allowed.')
     for index, current_dict in enumerate(dict_list):
+        if not type(current_dict) is dict:
+            raise TypeError('Only dictionaries in the list are allowed.')
         for key, value in current_dict.items():
+            if not type(key) is str:
+                raise TypeError('Only strings as a key in the dictionaries are allowed.')
+            if not type(value) is int:
+                raise TypeError('Only integers as a value in the dictionaries are allowed.')
             if key in key_data:
                 if value > key_data[key]["max_value"]:
                     key_data[key] = {"max_value": value, "index": index}
@@ -125,7 +135,8 @@ def aggregate_dicts(dict_list):
     return result_dict
 
 
- # Main function to generate dictionaries and aggregate them.
+
+# Main function to generate dictionaries and aggregate them.
 def main():
     dict_list = generate_random_dicts()
     print(f"List of dictionaries: {json.dumps(dict_list, indent=2)}")
@@ -139,5 +150,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

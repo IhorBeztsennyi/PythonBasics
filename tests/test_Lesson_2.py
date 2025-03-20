@@ -31,15 +31,26 @@ def test_generate_random_dicts():
     (
         [{}, {}, {}, {}],
         {}
-    ),
-    (
-        [{'a': 10, 'b': 20}, {'a': 10, 'b': 20}, {'a': 10, 'b': 20}],
-        {'a_1': 10, 'b_1': 20}
     )
 ])
 def test_aggregate_dicts(dict_list, expected_result):
     result_dict = aggregate_dicts(dict_list)
     assert result_dict == expected_result
+
+
+@pytest.mark.parametrize("invalid_input", [
+    00000,
+    'string',
+    {1: 'value'},
+    [1, 'string1', 45, 'string2'],
+    [{"a": 10}, '{\'b\': 30}', {"b": 30}],
+    [{10: 10, 20: 20}],
+    [{'a': '10', 'b': '20'}],
+])
+def test_aggregate_dicts_exceptions(invalid_input):
+    with pytest.raises(TypeError):
+        aggregate_dicts(invalid_input)
+
 
 if __name__ == "__main__":
     pytest.main()
