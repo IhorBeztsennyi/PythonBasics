@@ -1,5 +1,7 @@
 from datetime import datetime
-import random
+import os
+from tasks.Lesson_3 import normalize_text
+
 
 
 class Record:
@@ -48,3 +50,33 @@ class NewsFeed:
     def add_record(self, record):
         with open(self.filename, "a", encoding="utf-8") as file:
             file.write(record.publish() + "\n\n")
+
+
+class FileRecordProvider:
+    def __init__(self, file_path="input_records.txt"):
+        self.file_path = file_path
+
+    def process_file(self, feed):
+        if not os.path.exists(self.file_path):
+            print(f"File {self.file_path} does not exist.")
+            return
+
+        with open(self.file_path, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith("news"):
+                _, text, city = line.split("|")
+                feed.add_record(News(normalize_text(text), city))
+            elif line.startswith("ad"):
+                _, text, exp_date = line.split("|")
+                feed.add_record(PrivateAd(normalize_text(text), exp_date))
+            elif line.startswith("joke"):
+                _, text, category_index = line.split("|")
+                feed.add_record(JokeOfTheDay(normalize_text(text), int(category_index)))
+            else:
+                print(f"Invalid record format: {line}")
+
+        os.remove(self.file_path)
+        print(f"File {self.file_path} processed and deleted successfully.")

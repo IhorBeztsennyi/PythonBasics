@@ -1,5 +1,4 @@
-from tasks.lesson_5.Entities import News, PrivateAd, JokeOfTheDay, NewsFeed
-import random
+from tasks.lesson_5_and_6.Entities import News, PrivateAd, JokeOfTheDay, NewsFeed, FileRecordProvider
 
 
 def main():
@@ -9,7 +8,8 @@ def main():
         print("1 - News")
         print("2 - Private Ad")
         print("3 - Joke of the Day")
-        print("4 - Exit")
+        print("4 - Read from file")
+        print("5 - Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -35,6 +35,9 @@ def main():
 
             feed.add_record(JokeOfTheDay(joke_text, category_index))
         elif choice == "4":
+            provider = FileRecordProvider()
+            provider.process_file(feed)
+        elif choice == "5":
             print("Exiting...")
             break
         else:
