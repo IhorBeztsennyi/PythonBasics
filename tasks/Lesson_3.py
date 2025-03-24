@@ -27,7 +27,7 @@ def normalize_text(text):
         # Sentences normalization
         for i in range(0, len(sentences), 2):
             # Spaces at the beginning of the sentence removing
-            sentence = sentences[i].strip()
+            sentence = sentences[i].strip().lower()
             if sentence:
                 # Incorrect "iz" fixing and capitalization
                 sentence = re.sub(r'(?<!\S)iz(?!\S)', 'is', sentence).capitalize()
@@ -85,4 +85,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
