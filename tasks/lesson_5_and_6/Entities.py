@@ -1,6 +1,7 @@
 from datetime import datetime
-import os
+import os, csv
 from tasks.Lesson_3 import normalize_text
+from collections import Counter
 
 
 
@@ -80,3 +81,29 @@ class FileRecordProvider:
 
         os.remove(self.file_path)
         print(f"File {self.file_path} processed and deleted successfully.")
+
+
+class NewsFeedCSV(NewsFeed):
+    def __init__(self, filename="news_feed.txt", csv_filename="word_count.csv"):
+        super().__init__(filename)
+        self.csv_filename = csv_filename
+
+    def add_record(self, record):
+        super().add_record(record)
+        self.word_count_csv()
+
+    def word_count_csv(self):
+        if not os.path.exists(self.filename):
+            return
+
+        with open(self.filename, "r", encoding="utf-8") as file:
+            text = file.read().lower()
+
+        words = text.split()
+        word_counts = Counter(words)
+
+        with open(self.csv_filename, "w", encoding="utf-8", newline="") as csv_file:
+            writer = csv.writer(csv_file, delimiter='-')
+            for word, count in word_counts.items():
+                writer.writerow([word, count])
+
