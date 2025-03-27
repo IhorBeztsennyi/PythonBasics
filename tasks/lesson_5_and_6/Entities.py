@@ -84,13 +84,15 @@ class FileRecordProvider:
 
 
 class NewsFeedCSV(NewsFeed):
-    def __init__(self, filename="news_feed.txt", csv_filename="word_count.csv"):
+    def __init__(self, filename="news_feed.txt", csv_filename="word_count.csv", letter_csv_filename="letter_count_csv"):
         super().__init__(filename)
         self.csv_filename = csv_filename
+        self.letter_csv_filename = letter_csv_filename
 
     def add_record(self, record):
         super().add_record(record)
         self.word_count_csv()
+        self.letter_count_csv()
 
     def word_count_csv(self):
         if not os.path.exists(self.filename):
@@ -107,3 +109,21 @@ class NewsFeedCSV(NewsFeed):
             for word, count in word_counts.items():
                 writer.writerow([word, count])
 
+    def letter_count_csv(self):
+        if not os.path.exists(self.filename):
+            return
+
+        with open(self.filename, 'r', encoding='utf-8') as file:
+            text = file.read()
+
+        letter_counts = Counter(c.lower() for c in text if c.isalpha())
+        upper_counts = Counter(c for c in text if c.isupper())
+        total_letters = sum(letter_counts.values())
+
+        with open(self.letter_csv_filename, "w", encoding="utf-8", newline="") as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(["Letter", "Count_All", "Count_Uppercase", "Percentage"])
+            for letter, count_all in letter_counts.items():
+                count_upper = upper_counts.get(letter.upper(), 0)
+                percentage = (count_all / total_letters) * 100 if total_letters > 0 else 0
+                writer.writerow([letter, count_all, count_upper, f"{percentage:.2f}%"])
