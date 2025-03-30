@@ -1,8 +1,7 @@
 from datetime import datetime
-import os, csv
+import os, csv, json
 from tasks.Lesson_3 import normalize_text
 from collections import Counter
-
 
 
 class Record:
@@ -127,3 +126,32 @@ class NewsFeedCSV(NewsFeed):
                 count_upper = upper_counts.get(letter.upper(), 0)
                 percentage = (count_all / total_letters) * 100 if total_letters > 0 else 0
                 writer.writerow([letter, count_all, count_upper, f"{percentage:.2f}%"])
+
+
+class JSONRecordProvider:
+    def __init__(self, file_path="input_records.json"):
+        self.file_path = file_path
+
+    def process_json(self, feed):
+        if not os.path.exists(self.file_path):
+            print(f"File {self.file_path} does not exist.")
+            return
+
+        with open(self.file_path, "r", encoding="utf-8") as file:
+            records = json.load(file)
+
+        for record in records:
+            record_type = record.get("type")
+            text = normalize_text(record.get("text", ""))
+
+            if record_type == "news":
+                feed.add_record(News(text, record.get("city", "")))
+            elif record_type == "ad":
+                feed.add_record(PrivateAd(text, record.get("expiration_date", "")))
+            elif record_type == "joke":
+                feed.add_record(JokeOfTheDay(text, int(record.get("category_index", 1))))
+            else:
+                print(f"Invalid record format: {record}")
+
+        os.remove(self.file_path)
+        print(f"File {self.file_path} processed and deleted successfully.")

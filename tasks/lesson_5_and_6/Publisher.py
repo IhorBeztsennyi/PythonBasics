@@ -1,4 +1,4 @@
-from tasks.lesson_5_and_6.Entities import News, PrivateAd, JokeOfTheDay, NewsFeedCSV, FileRecordProvider
+from tasks.lesson_5_and_6.Entities import News, PrivateAd, JokeOfTheDay, NewsFeedCSV, FileRecordProvider, JSONRecordProvider
 
 
 def main():
@@ -8,8 +8,9 @@ def main():
         print("1 - News")
         print("2 - Private Ad")
         print("3 - Joke of the Day")
-        print("4 - Read from file")
-        print("5 - Exit")
+        print("4 - Read from text file")
+        print("5 - Read from JSON file")
+        print("6 - Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -38,6 +39,8 @@ def main():
             provider = FileRecordProvider()
             provider.process_file(feed)
         elif choice == "5":
+            JSONRecordProvider().process_json(feed)
+        elif choice == "6":
             print("Exiting...")
             break
         else:
