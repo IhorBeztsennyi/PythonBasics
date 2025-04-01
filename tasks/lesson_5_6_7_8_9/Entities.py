@@ -2,6 +2,7 @@ from datetime import datetime
 import os, csv, json
 from tasks.Lesson_3 import normalize_text
 from collections import Counter
+import xml.etree.ElementTree as ET
 
 
 class Record:
@@ -155,3 +156,39 @@ class JSONRecordProvider:
 
         os.remove(self.file_path)
         print(f"File {self.file_path} processed and deleted successfully.")
+
+
+class XMLRecordProvider:
+    def __init__(self, file_path="input_records.xml"):
+        self.file_path = file_path
+
+    def process_xml(self, feed):
+        if not os.path.exists(self.file_path):
+            print(f"File {self.file_path} does not exist.")
+            return
+
+        try:
+            tree = ET.parse(self.file_path)
+            root = tree.getroot()
+
+            for record in root.findall("record"):
+                record_type = record.get("type")
+                text = normalize_text(record.find("text").text)
+
+                if record_type == "news":
+                    city = record.find("city").text
+                    feed.add_record(News(text, city))
+                elif record_type == "ad":
+                    expiration_date = record.find("expiration_date").text
+                    feed.add_record(PrivateAd(text, expiration_date))
+                elif record_type == "joke":
+                    category_index = int(record.find("category_index").text)
+                    feed.add_record(JokeOfTheDay(text, category_index))
+                else:
+                    print(f"Invalid record type: {record_type}")
+
+            os.remove(self.file_path)
+            print(f"File {self.file_path} processed and deleted successfully.")
+
+        except Exception as e:
+            print(f"Error processing XML file: {e}")

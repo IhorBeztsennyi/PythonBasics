@@ -1,0 +1,22 @@
+<records>
+    <record type="news">
+        <text>Breaking news! New Python is coming</text>
+        <city>New York</city>
+    </record>
+    <record type="ad">
+        <text>Huge discount on all electronics this weekend!</text>
+        <expiration_date>2025-04-10</expiration_date>
+    </record>
+    <record type="joke">
+        <text>Why don’t scientists trust atoms? Because they make up everything!</text>
+        <category_index>2</category_index>
+    </record>
+    <record type="news">
+        <text>New electric cars will be released next month.</text>
+        <city>Berlin</city>
+    </record>
+    <record type="ad">
+        <text>Join our fitness club today and get the first month free!</text>
+        <expiration_date>2025-05-01</expiration_date>
+    </record>
+</records>
