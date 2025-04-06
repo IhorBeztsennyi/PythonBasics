@@ -3,6 +3,7 @@ import os, csv, json
 from tasks.Lesson_3 import normalize_text
 from collections import Counter
 import xml.etree.ElementTree as ET
+import sqlite3
 
 
 class Record:
@@ -192,3 +193,71 @@ class XMLRecordProvider:
 
         except Exception as e:
             print(f"Error processing XML file: {e}")
+
+
+class DatabaseRecordSaver:
+    def __init__(self, db_name="records.db"):
+        self.conn = sqlite3.connect(db_name)
+        self.cursor = self.conn.cursor()
+        self.create_tables()
+
+    def create_tables(self):
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS News (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT,
+                city TEXT,
+                date TEXT,
+                UNIQUE(text, city, date)
+            )
+        ''')
+
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Advertising (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT,
+                expiration_date TEXT,
+                days_left INTEGER,
+                UNIQUE(text, expiration_date)
+            )
+        ''')
+
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS JokeOfTheDay (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT,
+                category TEXT,
+                UNIQUE(text, category)
+            )
+        ''')
+        self.conn.commit()
+
+    def save_news(self, news: News):
+        try:
+            self.cursor.execute('''
+                INSERT INTO News (text, city, date) VALUES (?, ?, ?)
+            ''', (news.text, news.city, news.date))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            print("The record already exists (News).")
+
+    def save_ad(self, ad: PrivateAd):
+        try:
+            self.cursor.execute('''
+                INSERT INTO Advertising (text, expiration_date, days_left) VALUES (?, ?, ?)
+            ''', (ad.text, ad.expiration_date.strftime('%Y-%m-%d'), ad.days_left))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            print("The record already exists (Advertising).")
+
+    def save_joke(self, joke: JokeOfTheDay):
+        try:
+            self.cursor.execute('''
+                INSERT INTO JokeOfTheDay (text, category) VALUES (?, ?)
+            ''', (joke.joke_text, joke.category))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            print("The record already exists (JokeOfTheDay).")
+
+    def close(self):
+        self.conn.close()

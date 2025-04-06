@@ -1,4 +1,4 @@
-from tasks.lesson_5_6_7_8_9.Entities import News, PrivateAd, JokeOfTheDay, NewsFeedCSV, FileRecordProvider, JSONRecordProvider, XMLRecordProvider
+from tasks.lesson_5_6_7_8_9_10.Entities import News, PrivateAd, JokeOfTheDay, NewsFeedCSV, FileRecordProvider, JSONRecordProvider, XMLRecordProvider
 
 
 def main():
