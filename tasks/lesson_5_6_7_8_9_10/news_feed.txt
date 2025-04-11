@@ -103,3 +103,22 @@ Private Advertisement:
 Join our fitness club today and get the first month free!
 Expires on: 2025-05-01, 29 days left
 
+Piece of News:
+Breaking news! New python is coming
+New York, 2025-04-11 13:59:17
+
+Private Advertisement:
+Huge discount on all electronics this weekend!!
+Expires on: 2025-04-10, -2 days left
+
+Joke of the Day (Dark humor):
+Why don’t scientists trust atoms? Because they make up everything!!
+
+Piece of News:
+New electric cars will be released next month!!
+Berlin, 2025-04-11 13:59:18
+
+Private Advertisement:
+Join our fitness club today and get the first month free!!
+Expires on: 2025-05-01, 19 days left
+

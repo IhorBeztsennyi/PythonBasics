@@ -261,3 +261,19 @@ class DatabaseRecordSaver:
 
     def close(self):
         self.conn.close()
+
+
+class NewsFeedDB(NewsFeedCSV):
+    def __init__(self, db_saver, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.db_saver = db_saver
+
+    def add_record(self, record):
+        super().add_record(record)
+
+        if isinstance(record, News):
+            self.db_saver.save_news(record)
+        elif isinstance(record, PrivateAd):
+            self.db_saver.save_ad(record)
+        elif isinstance(record, JokeOfTheDay):
+            self.db_saver.save_joke(record)
